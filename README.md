@@ -1,38 +1,117 @@
-# DH TELECOM AND ADVERTISING HOUSE — Application de Gestion
+# 🎓 U-Connect — Plateforme de Gestion Universitaire Multi-Campus
 
-## Rôle du projet
+> **Empowering Minds, Building Futures**
+> Ubuntu International Academy (UIA)
 
-Cette application web a pour rôle de **centraliser et automatiser la gestion quotidienne** de l'entreprise **DH TELECOM AND ADVERTISING HOUSE**.
+U-Connect est une application web complète de gestion universitaire conçue pour piloter l'ensemble des activités académiques, administratives et financières d'une université multi-campus.
 
-Elle permet de :
+---
 
-- **Gérer le stock** : suivi des produits disponibles, des mouvements d'entrée et de sortie, et alertes automatiques lorsque les seuils critiques sont atteints.
-- **Gérer la caisse** : enregistrement des transactions, suivi des encaissements et édition des états financiers.
-- **Suivre les flux** : contrôle des entrées et sorties de matériel et d'argent.
-- **Générer les factures** : création, modification, envoi et archivage des factures clients.
-- **Tenir les books de commande** : gestion des commandes passées par les clients et auprès des fournisseurs.
-- **Éditer les bordereaux de livraison** : création, impression et suivi des livraisons effectuées.
-- **Gérer les offres commerciales** : création et suivi des propositions faites aux prospects et clients.
-- **Suivre les opérations** : tableau de bord permettant de visualiser les performances et l'activité globale.
-- **Communiquer en interne** : messagerie sécurisée entre les utilisateurs de l'application.
-- **Recevoir des rappels et alertes** : notifications pour les échéances importantes, les seuils critiques et les anomalies détectées.
-- **Fidéliser les clients VIP** : attribution automatique de promotions selon les commandes passées.
-- **Gérer les anniversaires clients** : identification des clients enregistrés et envoi d'attention le jour de leur anniversaire.
-- **Suivre les transactions bancaires** : gestion des comptes, virements et rapprochements bancaires.
+## 📋 Table des matières
 
-## À qui s'adresse l'application
+1. [Présentation](#-présentation)
+2. [Fonctionnalités](#-fonctionnalités)
+3. [Stack technique](#-stack-technique)
+4. [Architecture](#-architecture)
+5. [Installation](#-installation)
+6. [Configuration](#-configuration)
+7. [Structure des dossiers](#-structure-des-dossiers)
+8. [Rôles et permissions](#-rôles-et-permissions)
+9. [Routes principales](#-routes-principales)
+10. [Comptes de test](#-comptes-de-test)
+11. [Sécurité](#-sécurité)
+12. [Maintenance](#-maintenance)
+13. [Contribution](#-contribution)
+14. [Licence](#-licence)
 
-L'application est destinée aux différents profils de l'entreprise, chacun disposant d'un accès adapté à son rôle :
+---
 
-- **Super Administrateur** — contrôle total du système.
-- **Directeur Général** — vision globale et validation des opérations.
-- **Comptable** — gestion financière, bancaire et comptable.
-- **Réceptionniste** — accueil clients, commandes et facturation.
-- **Magasinier** — gestion du stock et des livraisons.
-- **Travailleur** — accès aux opérations courantes.
+## 🎯 Présentation
 
-Chaque utilisateur ne voit et n'utilise que les modules correspondant à ses responsabilités, garantissant ainsi la **sécurité**, la **confidentialité** et la **bonne organisation** des données de l'entreprise.
+**U-Connect** est le système d'information centralisé d'Ubuntu International Academy. Il couvre :
 
-## Objectif principal
+- La gestion des **étudiants** et des **inscriptions**
+- La **scolarité** et les **notes** (LMD)
+- Les **finances** (frais de scolarité, paiements, bourses)
+- La **bibliothèque** (catalogue, prêts, amendes)
+- La **communication** interne (messagerie, annonces, notifications)
+- Les **rapports** et **statistiques** de pilotage
+- La **gestion des utilisateurs** et des **campus**
 
-Offrir à **DH TELECOM AND ADVERTISING HOUSE** un outil unique, sécurisé et efficace pour piloter l'ensemble de ses activités commerciales, logistiques, financières et relationnelles, tout en assurant une traçabilité complète des opérations et une meilleure prise de décision.# u-connect
+L'application fonctionne sur **3 campus** (Bujumbura, Gitega, Ngozi) et gère **10 rôles** différents avec des permissions granulaires.
+
+---
+
+## ✨ Fonctionnalités
+
+### 📚 Gestion académique
+- Années académiques, semestres, facultés, départements
+- Programmes LMD (Licence / Master / Doctorat)
+- Unités d'enseignement (UE) et cours
+- Système de crédits ECTS et de compensation
+- Calcul automatique des moyennes et mentions
+- Génération de relevés de notes et diplômes
+
+### 👥 Gestion des étudiants
+- Dossiers étudiants complets (matricule, documents, historique)
+- Inscriptions (nouvelle, réinscription, redoublement, transfert)
+- Vérification des pièces justificatives
+- Suivi des transferts inter-campus
+- Cartes étudiantes
+
+### 📊 Évaluations & Résultats
+- Évaluations (TD, TP, Interrogations, Examens, Rattrapages)
+- Saisie des notes avec vérification des barèmes
+- Délibérations et jurys
+- Calcul automatique des résultats par cours, UE, semestre et année
+- Réclamations de notes
+
+### 💰 Gestion financière
+- Structures de frais par programme et niveau
+- Factures et échéanciers
+- Paiements multiples (espèces, virement, mobile money, chèque, carte)
+- Bourses et exonérations
+- Caisse quotidienne
+- Rapports financiers et taux de recouvrement
+
+### 📖 Bibliothèque
+- Catalogue de livres (physiques et numériques)
+- Gestion des exemplaires (code-barres)
+- Prêts et retours avec politiques configurables
+- Amendes de retard
+- Réservations
+
+### 💬 Communication
+- Messagerie interne
+- Annonces ciblées (par rôle, campus, programme)
+- Notifications
+- Journal d'audit
+
+### 📈 Rapports & Pilotage
+- Tableau de bord Super Admin (KPIs stratégiques)
+- Rapports par campus, faculté, département
+- Statistiques de réussite, recouvrement, présence
+- Top étudiants
+- Alertes automatiques
+
+---
+
+## 🛠️ Stack technique
+
+| Composant | Technologie |
+|-----------|-------------|
+| **Langage backend** | PHP 8.2 (natif, sans framework) |
+| **Base de données** | MariaDB 10.4 / MySQL 8.0 |
+| **Accès BDD** | PDO (requêtes préparées) |
+| **Frontend** | HTML5, CSS3, Bootstrap 4 (via DeskApp) |
+| **Icônes** | Dropways Icons (DeskApp) |
+| **Alertes** | SweetAlert2 |
+| **Graphiques** | ApexCharts |
+| **Serveur local** | XAMPP / MAMP |
+| **Versioning** | Git |
+
+---
+
+## 🏗️ Architecture
+
+### Architecture globale
