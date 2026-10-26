@@ -1,0 +1,9 @@
+# Les endpoints PHP sont exécutables; protéger les fichiers internes.
+<FilesMatch "^(config|database)\.php$|\.(ini|log|json|sql)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^helpers/ - [F,L]
+</IfModule>
