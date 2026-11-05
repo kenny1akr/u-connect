@@ -41,25 +41,17 @@ if (!function_exists('app_route_url')) {
         if ($role !== '' && $path !== $role && strpos($path, $role . '/') !== 0) {
             $path = $role . '/' . $path;
         }
-
-        // ✅ URL correcte : router.php?route=...
         $url = app_url('router.php') . '?route=' . urlencode($path);
-
-        // Ajouter des paramètres supplémentaires (id, page, etc.)
         if (!empty($params)) {
             $url .= '&' . http_build_query($params);
         }
-
         return $url;
     }
 }
 
-// ============================================================
-// DOSSIERS PHYSIQUES PAR RÔLE
-// ============================================================
 $ROLE_DIRECTORIES = [
     'super_admin'           => 'dash/super_admin',
-    'recteur'               => 'dash/admin',
+    'recteur'               => 'dash/recteur',
     'secretaire_general'    => 'dash/direction_administrative/Secrétaire Général',
     'directeur_campus'      => 'dash/admin',
     'daf'                   => 'dash/direction_administrative/daf',
@@ -71,7 +63,7 @@ $ROLE_DIRECTORIES = [
     'comptable'             => 'dash/direction_administrative/comptable',
     'agent_scolarite'       => 'dash/direction_des_services_académiques/agent_scolarite',
     'caissier'              => 'dash/direction_administrative/comptable',
-    'lecteur'               => 'dash/direction_administrative/lecteur',
+    'lecteur'               => 'dash/recteur',
     'enseignant'            => 'dash/enseignant',
     'etudiant'              => 'dash/etudiant',
     'parent'                => 'dash/parent',
@@ -79,7 +71,7 @@ $ROLE_DIRECTORIES = [
 
 $HOME_BY_ROLE = [
     'super_admin'           => 'dash/super_admin/index.php',
-    'recteur'               => 'dash/admin/index.php',
+    'recteur'               => 'dash/recteur/index.php',
     'secretaire_general'    => 'dash/direction_administrative/Secrétaire Général/index.php',
     'directeur_campus'      => 'dash/admin/index.php',
     'daf'                   => 'dash/direction_administrative/daf/index.php',
@@ -91,33 +83,29 @@ $HOME_BY_ROLE = [
     'comptable'             => 'dash/direction_administrative/comptable/index.php',
     'agent_scolarite'       => 'dash/direction_des_services_académiques/agent_scolarite/index.php',
     'caissier'              => 'dash/direction_administrative/comptable/index.php',
-    'lecteur'               => 'dash/direction_administrative/lecteur/index.php',
+    'lecteur'               => 'dash/recteur/index.php',
     'enseignant'            => 'dash/enseignant/index.php',
     'etudiant'              => 'dash/etudiant/index.php',
     'parent'                => 'dash/parent/index.php',
 ];
 
-// ============================================================
-// CATALOGUE DES ROUTES
-// ============================================================
 $ROUTE_DEFINITIONS = [
     'accueil'               => ['index.php',          'dashboard.view', 'Tableau de bord'],
     'dashboard'             => ['index.php',          'dashboard.view', 'Tableau de bord'],
     'profil'                => ['profile.php',        'dashboard.view', 'Mon profil'],
     'notifications'         => ['notifications.php',  'dashboard.view', 'Notifications'],
-
+    'etudiants/classe'           => ['classe_etudiants.php',     'etudiants.view', 'Élèves de la classe'],
     'etudiants'                    => ['etudiants_liste.php',      'etudiants.view', 'Étudiants'],
     'etudiants/liste'              => ['etudiants_liste.php',      'etudiants.view', 'Liste des étudiants'],
     'etudiants/ajouter'            => ['etudiant_add.php',         'etudiants.create', 'Ajouter un étudiant'],
     'etudiants/modifier'           => ['etudiant_edit.php',        'etudiants.edit', 'Modifier un étudiant'],
     'etudiants/detail'             => ['etudiant_detail.php',      'etudiants.view', 'Fiche étudiant'],
     'etudiants/transfert'          => ['etudiant_transfert.php',   'etudiants.transfer', 'Transfert inter-campus'],
-    'etudiants/inscriptions'       => ['inscriptions_liste.php',   'etudiants.view', 'Inscriptions'],
+    'etudiants/inscriptions'       => ['etudiants_liste.php',      'etudiants.view', 'Inscriptions'],
     'etudiants/inscription/nouvelle' => ['inscription_nouvelle.php','etudiants.create', 'Nouvelle inscription'],
     'etudiants/documents'          => ['etudiant_documents.php',   'etudiants.view', 'Documents étudiant'],
     'etudiants/statut-financier'   => ['etudiant_finances.php',    'etudiants.statut_financier', 'Statut financier'],
     'etudiants/mes-etudiants'      => ['mes_etudiants.php',        'etudiants.mes_etudiants', 'Mes étudiants'],
-
     'notes'                        => ['notes_liste.php',          'notes.view', 'Notes'],
     'notes/saisie'                 => ['notes_saisie.php',         'notes.edit', 'Saisie des notes'],
     'notes/modifier'               => ['notes_modifier.php',       'notes.edit', 'Modifier une note'],
@@ -134,7 +122,6 @@ $ROUTE_DEFINITIONS = [
     'syllabus/modifier'            => ['syllabus_edit.php',        'syllabus.edit', 'Modifier le programme'],
     'syllabus/coverage'            => ['syllabus_coverage.php',    'syllabus.edit', 'Couverture du programme'],
     'syllabus/validation'          => ['syllabus_validation.php',  'syllabus.validate', 'Valider le programme'],
-
     'enseignants'                  => ['enseignants_liste.php',    'enseignants.view', 'Enseignants'],
     'enseignants/liste'            => ['enseignants_liste.php',    'enseignants.view', 'Liste des enseignants'],
     'enseignants/ajouter'          => ['enseignant_add.php',       'enseignants.create', 'Ajouter un enseignant'],
@@ -148,7 +135,6 @@ $ROUTE_DEFINITIONS = [
     'emploi-temps/conflits'        => ['emploi_temps_conflits.php','emploi_temps.edit', 'Détection de conflits'],
     'emploi-temps/mon'             => ['mon_emploi_temps.php',     'emploi_temps.mon', 'Mon emploi du temps'],
     'salles'                       => ['salles_liste.php',         'emploi_temps.view', 'Gestion des salles'],
-
     'finances'                     => ['finances_index.php',       'finances.view', 'Finances'],
     'finances/frais'               => ['frais_liste.php',          'finances.view', 'Frais de scolarité'],
     'finances/frais/creer'         => ['frais_create.php',         'finances.create', 'Créer un frais'],
@@ -161,7 +147,6 @@ $ROUTE_DEFINITIONS = [
     'finances/bourse/creer'        => ['bourse_create.php',        'bourses.edit', 'Attribuer une bourse'],
     'finances/statut-financier'    => ['statut_financier.php',     'finances.view', 'Statut financier'],
     'finances/mon-statut'          => ['mon_statut.php',           'finances.mon_statut', 'Mon statut financier'],
-
     'documents'                    => ['documents_liste.php',      'documents.view', 'Documents'],
     'documents/releves'            => ['releves_liste.php',        'documents.view', 'Relevés de notes'],
     'documents/releve/generer'     => ['releve_generer.php',       'documents.generer_releve', 'Générer un relevé'],
@@ -169,12 +154,10 @@ $ROUTE_DEFINITIONS = [
     'documents/diplome/generer'    => ['diplome_generer.php',      'documents.generer_diplome', 'Générer un diplôme'],
     'documents/archives'           => ['documents_archives.php',   'documents.archive', 'Archives documentaires'],
     'documents/mon-releve'         => ['mon_releve.php',           'documents.mon_releve', 'Mon relevé de notes'],
-
     'messagerie'                   => ['messagerie.php',           'messagerie.view', 'Messagerie interne'],
     'messagerie/envoyer'           => ['messagerie_envoyer.php',   'messagerie.send', 'Envoyer un message'],
     'messagerie/annonces'          => ['annonces_liste.php',       'messagerie.view', 'Annonces'],
     'messagerie/annonce/creer'     => ['annonce_create.php',       'messagerie.send', 'Créer une annonce'],
-
     'rapports'                     => ['rapports_index.php',       'rapports.view', 'Rapports'],
     'rapports/academique'          => ['rapports_academique.php',  'rapports.academique', 'Rapports académiques'],
     'rapports/financier'           => ['rapports_financier.php',   'rapports.financier', 'Rapports financiers'],
@@ -186,7 +169,6 @@ $ROUTE_DEFINITIONS = [
     'rapports/administratif'       => ['rapports_admin.php',       'rapports.administratif', 'Rapports administratifs'],
     'statistiques'                 => ['statistiques.php',         'dashboard.view', 'Statistiques'],
     'alertes'                      => ['alertes.php',              'dashboard.view', 'Alertes & Rappels'],
-
     'utilisateurs'                 => ['utilisateurs_liste.php',   'utilisateurs.view', 'Utilisateurs'],
     'utilisateurs/ajouter'         => ['utilisateur_add.php',      'utilisateurs.create', 'Ajouter un utilisateur'],
     'utilisateurs/modifier'        => ['utilisateur_edit.php',     'utilisateurs.edit', 'Modifier un utilisateur'],
@@ -195,24 +177,20 @@ $ROUTE_DEFINITIONS = [
     'parametres/annee-academique'  => ['annee_academique.php',     'parametres.edit', 'Année académique'],
     'parametres/campus'            => ['campus_liste.php',         'parametres.edit', 'Gestion des campus'],
     'parametres/facultes'          => ['facultes_liste.php',       'parametres.edit', 'Facultés & Départements'],
-
     'bibliotheque'                 => ['bibliotheque_liste.php',   'bibliotheque.view', 'Bibliothèque'],
     'bibliotheque/preter'          => ['bibliotheque_preter.php',  'bibliotheque.preter', 'Prêter un livre'],
     'bibliotheque/retourner'       => ['bibliotheque_retourner.php','bibliotheque.retourner', 'Retourner un livre'],
     'bibliotheque/livres'          => ['livres_liste.php',         'bibliotheque.view', 'Catalogue de livres'],
-
     'mes-notes'                    => ['mes_notes.php',            'notes.mes_notes', 'Mes notes'],
     'mon-emploi-temps'             => ['mon_emploi_temps.php',     'emploi_temps.mon', 'Mon emploi du temps'],
     'mes-documents'                => ['mes_documents.php',        'documents.view', 'Mes documents'],
     'mon-statut'                   => ['mon_statut.php',           'finances.mon_statut', 'Ma situation financière'],
     'ma-bibliotheque'              => ['bibliotheque.php',         'bibliotheque.view', 'Bibliothèque'],
-
     'enfant/notes'                 => ['notes_enfant.php',         'notes.mes_notes', 'Notes de mon enfant'],
     'enfant/emploi-temps'          => ['emploi_temps_enfant.php',  'emploi_temps.mon', 'Emploi du temps'],
     'enfant/statut-financier'      => ['statut_financier.php',     'finances.mon_statut', 'Situation financière'],
     'enfant/documents'             => ['documents_enfant.php',     'documents.view', 'Documents'],
     'parent/messages'              => ['messagerie.php',           'messagerie.view', 'Messages'],
-
     'documents-officiels'          => ['documents_officiels.php',  'documents.view', 'Documents officiels'],
     'courrier'                     => ['courrier.php',             'messagerie.view', 'Courrier'],
     'personnel'                    => ['personnel.php',            'utilisateurs.view', 'Gestion du personnel'],
@@ -232,17 +210,11 @@ $ROUTE_DEFINITIONS = [
     'publications'                 => ['publications.php',         'documents.view', 'Publications'],
     'partenariats'                 => ['partenariats.php',         'rapports.view', 'Partenariats'],
     'financements'                 => ['financements.php',         'finances.view', 'Financements recherche'],
-
-
-    // Gestion des Super Admins (admin_users)
     'admins'                       => ['admins_liste.php',         'admin_users.view',    'Super Administrateurs'],
     'admins/ajouter'               => ['admin_add.php',            'admin_users.create',  'Ajouter un Super Admin'],
     'admins/modifier'              => ['admin_edit.php',           'admin_users.edit',    'Modifier un Super Admin'],
 ];
 
-// ============================================================
-// CONSTRUCTION DES ROUTES PAR RÔLE
-// ============================================================
 $ROUTES_BY_ROLE = [];
 $ALL_ROLE_ROUTES = [];
 
@@ -271,8 +243,59 @@ foreach ($ROLES as $roleName => $roleDefinition) {
     }
 }
 
+// Les pages du recteur restent dans son dossier et utilisent toutes le campus affecté.
+if (isset($ROUTES_BY_ROLE['recteur'])) {
+    foreach ($ROUTES_BY_ROLE['recteur'] as $roleRoute => &$routeDefinition) {
+        $routeName = substr($roleRoute, strlen('recteur/'));
+        $routeDefinition[0] = match ($routeName) {
+            'accueil', 'dashboard' => 'dash/recteur/index.php',
+            'etudiants', 'etudiants/liste' => 'dash/recteur/etudiants_liste.php',
+            'etudiants/classe' => 'dash/recteur/classe_etudiants.php',
+            'etudiants/inscriptions' => 'dash/recteur/inscriptions_liste.php',
+            'etudiants/inscription/nouvelle' => 'dash/recteur/inscription_nouvelle.php',
+            'etudiants/detail' => 'dash/recteur/etudiant_detail.php',
+            'etudiants/transfert' => 'dash/recteur/etudiant_transfert.php',
+            'etudiants/statut-financier' => 'dash/recteur/etudiant_finances.php',
+            'parametres/campus' => 'dash/recteur/campus_liste.php',
+            'notes' => 'dash/recteur/notes_liste.php',
+            'notes/saisie' => 'dash/recteur/notes_saisie.php',
+            'notes/validation' => 'dash/recteur/notes_validation.php',
+            'notes/soumission' => 'dash/recteur/notes_soumission.php',
+            'notes/evaluations' => 'dash/recteur/evaluations_liste.php',
+            'notes/evaluation/creer' => 'dash/recteur/evaluation_create.php',
+            'cours' => 'dash/recteur/cours_liste.php',
+            'cours/ajouter' => 'dash/recteur/cours_add.php',
+            'syllabus' => 'dash/recteur/syllabus_liste.php',
+            'syllabus/coverage' => 'dash/recteur/syllabus_coverage.php',
+            'syllabus/validation' => 'dash/recteur/syllabus_validation.php',
+            'emploi-temps' => 'dash/recteur/emploi_temps.php',
+            'salles' => 'dash/recteur/salles_liste.php',
+            'enseignants', 'enseignants/liste' => 'dash/recteur/enseignants_liste.php',
+            'finances' => 'dash/recteur/finances_index.php',
+            'bourses' => 'dash/recteur/bourses_liste.php',
+            'documents' => 'dash/recteur/documents_liste.php',
+            'messagerie/envoyer' => 'dash/recteur/messagerie_envoyer.php',
+            'utilisateurs' => 'dash/recteur/utilisateurs_liste.php',
+            default => 'dash/recteur/gestion.php',
+        };
+    }
+    unset($routeDefinition);
+}
+
+// Le lecteur utilise temporairement le dossier du recteur
+if (isset($ROUTES_BY_ROLE['lecteur'])) {
+    foreach ($ROUTES_BY_ROLE['lecteur'] as $roleRoute => &$routeDefinition) {
+        $routeName = substr($roleRoute, strlen('lecteur/'));
+        $routeDefinition[0] = match ($routeName) {
+            'accueil', 'dashboard' => 'dash/recteur/index.php',
+            default => 'dash/recteur/gestion.php',
+        };
+    }
+    unset($routeDefinition);
+}
+
 // ============================================================
-// UTILISATEUR AUTHENTIFIÉ (admin_users OU users)
+// UTILISATEUR AUTHENTIFIÉ
 // ============================================================
 if (empty($_SESSION["logged_in"]) || empty($_SESSION["user_id"])) {
     header("Location: " . app_url("auth/"));
@@ -285,36 +308,24 @@ $db = Database::getInstance();
 $rawRole = null;
 $userRecord = null;
 
-// 1. Chercher dans admin_users
 $adminRecord = $db->fetch(
     "SELECT id, user_name, admin_role AS raw_role, f_name, l_name, status, profil
-     FROM admin_users
-     WHERE id = ?
-     LIMIT 1",
+     FROM admin_users WHERE id = ? LIMIT 1",
     [$_SESSION["user_id"]]
 );
 
 if ($adminRecord) {
     $userRecord = $adminRecord;
-    $rawRole = $adminRecord["raw_role"]; // "super_admin" ou "admin"
-    // Mapping admin_users.admin_role → slug U-Connect
-    if ($rawRole === 'super_admin') {
-        $rawRole = 'super_admin';
-    } elseif ($rawRole === 'admin') {
-        $rawRole = 'secretaire_general'; // Un "admin" sans rôle spécifique → SG par défaut
-    }
+    $rawRole = $adminRecord["raw_role"];
+    if ($rawRole === 'super_admin') $rawRole = 'super_admin';
+    elseif ($rawRole === 'admin') $rawRole = 'secretaire_general';
 } else {
-    // 2. Chercher dans users
     $userRecord = $db->fetch(
         "SELECT id, user_name, category AS raw_role, f_name, l_name, status, profil
-         FROM users
-         WHERE id = ?
-         LIMIT 1",
+         FROM users WHERE id = ? LIMIT 1",
         [$_SESSION["user_id"]]
     );
-    if ($userRecord) {
-        $rawRole = $userRecord["raw_role"];
-    }
+    if ($userRecord) $rawRole = $userRecord["raw_role"];
 }
 
 if (!$userRecord || strtolower($userRecord["status"] ?? "") !== "actif") {
@@ -324,10 +335,8 @@ if (!$userRecord || strtolower($userRecord["status"] ?? "") !== "actif") {
     exit;
 }
 
-// Normaliser le rôle
 $role = normalizeUserRole($rawRole);
 if ($role === null) {
-    // Rôle inconnu → on déconnecte et on affiche un message clair
     $_SESSION = [];
     session_destroy();
     header("Location: " . app_url("auth/") . "?error=role_inconnu");
@@ -417,6 +426,15 @@ $pagePath = __DIR__ . "/" . $file;
 if (!file_exists($pagePath)) {
     http_response_code(404);
     require __DIR__ . "/404.php";
+    exit;
+}
+
+// ✅ If JSON format is requested, bypass the layout
+if (($_GET['format'] ?? '') === 'json') {
+    if (ob_get_level()) {
+        ob_end_clean();
+    }
+    require $pagePath;
     exit;
 }
 
